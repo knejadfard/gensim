@@ -83,7 +83,7 @@ void population::advance() {
     for(int i=2;i<pvec.size()-1; i++) {
         nvec.push_back(pvec.at(i).mate(pvec.at(i+1)));
         //mutate new member
-        nvec.back().mutate(30);
+        nvec.back().mutate(10);
     }
     pvec = nvec;
     std::sort(pvec.begin(), pvec.end(), cmp);
