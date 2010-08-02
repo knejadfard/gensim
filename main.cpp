@@ -27,6 +27,5 @@ int main() {
     } catch(exception& e) {
         cout<<e.what()<<endl;
     }
-    cin.get();
     return 0;
 }
