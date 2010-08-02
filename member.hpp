@@ -30,7 +30,7 @@ public:
     std::string& get_phenotype();
     void set_phenotype(const std::string& phenotype);
     //unsigned int fitness();
-    //bool operator>(const member& rhs) const; //compare fitness
+    //bool operator<(const member& rhs) const; //compare fitness
 };
 
 inline member::member(): phen() {}
@@ -73,7 +73,7 @@ size_t member::cfitness(const member& alpha) const {
 }
 
 inline void member::mutate(const size_t& max_percent) {
-    size_t mutate_count=(rand()%max_percent)/100*phen.size();
+    size_t mutate_count=floor(float(rand()%max_percent)/100*phen.size()); //NEEDS SOME CLEANUP
     for(size_t i=0; i<mutate_count; i++) {
         int index = rand()%phen.size(); //generate random index
         phen.at(index) = random_char('a', 'z'); //assign random value to random index
@@ -95,8 +95,8 @@ member member::generate(const size_t& size) const {
     return member(rstr);
 }
 
-/*inline bool member::operator>(const member& rhs) const {
-    return cfitness()>rhs.cfitness();
+/*inline bool member::operator<(const member& rhs) const {
+    return cfitness()<rhs.cfitness();
 }*/
 
 inline void member::set_phenotype(const std::string& phenotype) {
