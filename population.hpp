@@ -40,7 +40,7 @@ void population::evolve(const size_t& cycles) {
     for(size_t i=0; i<cycles; i++) {
         for(miterator it1=pvec.begin(); it1!=pvec.end(); it1++) {
             //it1->crossover(*it2);
-            it1->mutate(70);
+            it1->mutate(20);
         }
         std::sort(pvec.begin(), pvec.end(), cmp);
         advance();
@@ -59,19 +59,19 @@ void population::print() {
 void population::advance() {
     //remove last quarter, must be sorted
     int count = ceil(float(pvec.size())/4);
-    for(int i=0; i<count; i++) {
+    /*for(int i=0; i<count; i++) {
         pvec.pop_back();
-    }
-    std::vector<member> nvec = pvec;
-    pvec.clear();
+    }*/
+    std::vector<member> nvec;
     //add best quarter to new population
     for(int i=0; i<count; i++) {
-        pvec.push_back(nvec.at(i));
+        nvec.push_back(pvec.at(i));
     }
     //mate the rest
-    for(miterator it=nvec.begin()+count-1; it!= end-1; it++) {
-        pvec.push_back(it->mate(*(it+1)));
+    for(int i=count;i<pvec.size()-count; i++) {
+        nvec.push_back(pvec.at(i).mate(pvec.at(i+1)));
     }
+    pvec = nvec;
 }
 
 #endif // POPULATION_H
