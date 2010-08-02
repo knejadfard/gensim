@@ -4,12 +4,16 @@
 #include <iostream> //for output about cycles in evolve function
 #include <vector>
 #include <algorithm>
+#include <cmath>
+
 #include "member.hpp"
 
 class population {
     std::vector<member> pvec;
     member alpha;
+    void advance();
 public:
+    typedef std::vector<member>::iterator miterator;
     class compare_members {
         member mem;
     public:
@@ -18,7 +22,6 @@ public:
             return lhs.cfitness(mem)<rhs.cfitness(mem);
         }
     };
-    typedef std::vector<member>::iterator miterator;
     population(const member& alpha_member, const size_t& size);
     void evolve(const size_t& cycles);
     void print();
@@ -40,6 +43,7 @@ void population::evolve(const size_t& cycles) {
             it1->mutate(70);
         }
         std::sort(pvec.begin(), pvec.end(), cmp);
+        advance();
         //usleep(1000);
         std::cout<<"\rCycle "<<i+1<<" Completed.";
     }
@@ -52,6 +56,22 @@ void population::print() {
     }
 }
 
-
+void population::advance() {
+    //remove last quarter, must be sorted
+    int count = ceil(float(pvec.size())/4);
+    for(int i=0; i<count; i++) {
+        pvec.pop_back();
+    }
+    std::vector<member> nvec = pvec;
+    pvec.clear();
+    //add best quarter to new population
+    for(int i=0; i<count; i++) {
+        pvec.push_back(nvec.at(i));
+    }
+    //mate the rest
+    for(miterator it=nvec.begin()+count-1; it!= end-1; it++) {
+        pvec.push_back(it->mate(*(it+1)));
+    }
+}
 
 #endif // POPULATION_H
