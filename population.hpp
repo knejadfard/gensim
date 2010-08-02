@@ -26,10 +26,10 @@ population::population(const size_t& size): pvec(), alpha("hello world") {
 
 void population::evolve(const size_t& cycles) {
     for(size_t i=0; i<cycles; i++) {
-        /*for(miterator it1=pvec.begin(), it2=it1+1; it1!=pvec.end()-1 && it2!=pvec.end(); it1+=2, it2+=2) {
-            it1->crossover(*it2);
-        }*/
-        pvec.at(i).mutate(10);
+        for(miterator it1=pvec.begin(); it1!=pvec.end(); it1++) {
+            //it1->crossover(*it2);
+            it1->mutate(12); //mutate with 12% chance
+        }
         //usleep(1000);
         std::cout<<"\rCycle "<<i+1<<" Completed.";
     }

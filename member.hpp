@@ -22,7 +22,7 @@ public:
     member(const member& rhs); //copies phenotype of another member
     member& operator=(const member& rhs); //copies phenotype of another member
     size_t cfitness(const member& alpha) const; //calculate fitness based on the alpha
-    void mutate(); //randomly apply mutations to phenotype
+    void mutate(const size_t& max_percent); //randomly apply mutations to phenotype
     member generate(const size_t& size) const; //generate a random member
     //member breed(const member& rhs) const;
     //void crossover(member& rhs); //MODIFY TO APPLY RANDOM RANGE CROSS
@@ -72,8 +72,8 @@ size_t member::cfitness(const member& alpha) const {
         return ft;
 }
 
-inline void member::mutate(const size_t max_percent) {
-    size_t mutate_count=(rand()%max_percent)*phen.size();
+inline void member::mutate(const size_t& max_percent) {
+    size_t mutate_count=(rand()%max_percent)/100*phen.size();
     for(size_t i=0; i<mutate_count; i++) {
         int index = rand()%phen.size(); //generate random index
         phen.at(index) = random_char('a', 'z'); //assign random value to random index
@@ -103,13 +103,13 @@ inline void member::set_phenotype(const std::string& phenotype) {
     phen = phenotype;
 }
 
-void member::crossover(member& rhs) {
+/*void member::crossover(member& rhs) {
     //siterator it1=rhs.get_phenotype().begin(), it2=it1+5;
     //siterator it3=phen.begin()+2;
     siterator it1, it2;
     //random_range(it1, it2);
     swap_ranges(it1, it2, phen.begin());
-}
+}*/
 
 void member::random_range(siterator& it1, siterator& it2) {
     it1 = phen.begin();
