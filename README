@@ -1,0 +1,5 @@
+Gensim is my personal project for simulating evolution and natural selection.
+
+Build(all platforms):
+---------------------
+You'll need SConstruct to be able to use the scons rules provided to build the project.
