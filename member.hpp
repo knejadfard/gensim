@@ -23,8 +23,8 @@ public:
     member& operator=(const member& rhs); //copies phenotype of another member
     size_t cfitness(const member& alpha) const; //calculate fitness based on the alpha
     void mutate(const size_t& max_percent); //randomly apply mutations to phenotype
-    std::string first_half(); //return phenotype's first half
-    std::string second_half(); //return phenotype's second half
+    std::string first_half() const; //return phenotype's first half
+    std::string second_half() const; //return phenotype's second half
     member generate(const size_t& size) const; //generate a random member
     member mate(const member& rhs) const;
     //member breed(const member& rhs) const;
@@ -112,7 +112,7 @@ inline void member::set_phenotype(const std::string& phenotype) {
     swap_ranges(it1, it2, phen.begin());
 }*/
 
-std::string member::first_half() {
+std::string member::first_half() const {
     size_t index = ceil((float)phen.size()/2);
     std::string tmp;
     for(size_t i=0; i<index; i++) {
@@ -121,7 +121,7 @@ std::string member::first_half() {
     return tmp;
 }
 
-std::string member::second_half() {
+std::string member::second_half() const {
     size_t index = ceil((float)phen.size()/2);
     std::string tmp;
     for(; index<phen.size(); index++) {
@@ -130,9 +130,9 @@ std::string member::second_half() {
     return tmp;
 }
 
-member member::mate(const member& rhs) {
+member member::mate(const member& rhs) const {
     std::string tstr = first_half()+rhs.second_half();
-    
+    return member(tstr);
 }
 
 void member::random_range(siterator& it1, siterator& it2) {
