@@ -7,14 +7,14 @@
 #include <ctime>					// for random seed
 #include <cmath>					// for abs()
 
-//IMPROVE CROSSOVER
+typedef std::string::iterator siterator;
+
+//ADD CROSSOVER
 class member {
     std::string phen; //phenotype
     //unsigned int ft; //fitness
     char random_char(const char& a, const char& b) const;
-
 public:
-    typedef std::string::iterator siterator;
     void random_range(siterator& it1, siterator& it2);
     member();
     member(const size_t& size); //generates random phenotype
@@ -22,10 +22,10 @@ public:
     member(const member& rhs); //copies phenotype of another member
     member& operator=(const member& rhs); //copies phenotype of another member
     size_t cfitness(const member& alpha) const; //calculate fitness based on the alpha
-    void mutate();
-    member generate(const size_t& size) const;
+    void mutate(); //randomly apply mutations to phenotype
+    member generate(const size_t& size) const; //generate a random member
     //member breed(const member& rhs) const;
-    void crossover(member& rhs); //MODIFY TO APPLY RANDOM RANGE CROSS
+    //void crossover(member& rhs); //MODIFY TO APPLY RANDOM RANGE CROSS
     const std::string& get_phenotype() const;
     std::string& get_phenotype();
     void set_phenotype(const std::string& phenotype);
@@ -33,16 +33,11 @@ public:
     //bool operator>(const member& rhs) const; //compare fitness
 };
 
-inline member::member(): phen() {
-    //srand(time(0));
-}
+inline member::member(): phen() {}
 
-inline member::member(const std::string& phenotype): phen(phenotype) {
-    //srand(time(0));
-}
+inline member::member(const std::string& phenotype): phen(phenotype) {}
 
 inline member::member(const size_t& size): phen() {
-    //srand(time(0));
     operator=(generate(size));
 }
 
@@ -77,9 +72,12 @@ size_t member::cfitness(const member& alpha) const {
         return ft;
 }
 
-inline void member::mutate() {
-    int i = rand()%phen.size(); //generate random index
-    phen.at(i) = random_char('a', 'z'); //assign random value to random index
+inline void member::mutate(const size_t max_percent) {
+    size_t mutate_count=(rand()%max_percent)*phen.size();
+    for(size_t i=0; i<mutate_count; i++) {
+        int index = rand()%phen.size(); //generate random index
+        phen.at(index) = random_char('a', 'z'); //assign random value to random index
+    }
 }
 
 inline member& member::operator=(const member& rhs) {
