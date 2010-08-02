@@ -8,10 +8,11 @@ using namespace std;
 
 int main() {
     try {
-        population p(member("hello world"), 5);
+        population p(member("genetics"), 10);
         p.print();
-        p.evolve(2000);
+        p.evolve(100000);
         p.print();
+        cout<<"Size: "<<p.size()<<endl;
     } catch(exception& e) {
         cout<<e.what()<<endl;
     }
