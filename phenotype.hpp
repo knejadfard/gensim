@@ -15,6 +15,7 @@ public:
     phenotype(const T& a); //make phenotype using a single element, copied to fill pdata
     phenotype(); //make phenotype with random data
     phenotype(const phenotype<T, size, Ttraits>& rhs);
+    phenotype<T, size, Ttraits> operator=(const phenotype<T, size, Ttraits>& rhs);
     int fitness(const phenotype<T, size, Ttraits>& rhs) const;
     char& operator[](const size_t& index);
     const char& operator[](const size_t& index);
@@ -22,10 +23,7 @@ public:
 
 template<class T=char, size_t size, class Ttraits=chphenotype> phenotype::phenotype(const phenotype<T, size, Ttraits>& rhs): pdata() {
     //pdata.reserve(size); //reserve capacity for at least size elements
-    for(size_t i=0; i<size; i++) {
-       //pdata.push_back(phenotype_data[i]); 
-       pdata[i] = rhs[i];
-    }
+    operator=(rhs);
 }
 
 template<class T=char, size_t size> phenotype<T, size>::phenotype(const T& a): pdata() {
@@ -62,6 +60,14 @@ template<class T=char, size_t size, class Ttraits=chphenotype> int phenotype<T, 
         fitness += abs(rhs[i] - pdata[i]);
     }
     return fitness;
+}
+
+template<class T=char, size_t size, class Ttraits=chphenotype> phenotype<T, size, Ttraits> operator=(const phenotype<T, size, Ttraits>& rhs) {
+    if(this==&rhs) return *this;
+    for(size_t i=0; i<size; i++) {
+       pdata[i] = rhs[i];
+    }
+    return *this;
 }
 
 //Char form
