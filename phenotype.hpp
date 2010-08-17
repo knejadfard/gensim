@@ -1,13 +1,12 @@
 #ifndef PHENOTYPE_H
 #define PHENOTYPE_H
 
-//needed to define default traits for a char phenotype
 #include <cmath>
 #include "chphenotype.hpp"
 
 //default to char phenotype
 //RECONSIDER size_t?
-template<class T=char, size_t size, class Ttraits=chphenotype> class phenotype {
+template<class T, size_t size, class Ttraits> class phenotype {
     T pdata[size]; //phenotype data
     //std::vector<T> pdata;
 public:
@@ -15,46 +14,42 @@ public:
     phenotype(const T& a); //make phenotype using a single element, copied to fill pdata
     phenotype(); //make phenotype with random data
     phenotype(const phenotype<T, size, Ttraits>& rhs);
-    phenotype<T, size, Ttraits> operator=(const phenotype<T, size, Ttraits>& rhs);
+    phenotype<T, size, Ttraits>& operator=(const phenotype<T, size, Ttraits>& rhs);
     int fitness(const phenotype<T, size, Ttraits>& rhs) const;
     char& operator[](const size_t& index);
-    const char& operator[](const size_t& index);
+    const char& operator[](const size_t& index) const;
 };
 
-template<class T=char, size_t size, class Ttraits=chphenotype> phenotype::phenotype(const phenotype<T, size, Ttraits>& rhs): pdata() {
-    //pdata.reserve(size); //reserve capacity for at least size elements
+template<class T, size_t size, class Ttraits> inline phenotype::phenotype(const phenotype<T, size, Ttraits>& rhs): pdata() {
     operator=(rhs);
 }
 
-template<class T=char, size_t size> phenotype<T, size>::phenotype(const T& a): pdata() {
-    //pdata.reserve(size);
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(const T& a): pdata() {
     for(size_t i=0; i<size; i++) {
-        pdata.push_back(a);
+        pdata[i] = a;
     }
 }
 
-template<class T=char, size_t size, class Ttraits=chphenotype> phenotype<T, size, Ttraits>::phenotype(): pdata() {
-    //pdata.reserve(size);
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(): pdata() {
     for(size_t i=0; i<size; i++) {
-        //pdata.push_back(Ttraits::generate_random());
-        pdata[i] = Ttraits::generate_random();
+        pdata[i] = Ttraits::random();
     }
 }
 
-template<size_t size> inline char& phenotype::operator[](const size_t& index) {
+template<class T, size_t size, class Ttraits> inline char& phenotype<T, size, Ttraits>::operator[](const size_t& index) {
     //CHECK BOUNDS
     //ADD EXCEPTION
     return pdata[index];
 }
 
-template<size_t size> inline const char& phenotype::operator[](const size_t& index) {
+template<class T, size_t size, class Ttraits> inline const char& phenotype<T, size, Ttraits>::operator[](const size_t& index) const {
     //CHECK BOUNDS
     //ADD EXCEPTION
     return pdata[index];
 }
 
 
-template<class T=char, size_t size, class Ttraits=chphenotype> int phenotype<T, size, Ttraits>::fitness(const phenotype<T, size, Ttraits>& rhs) const {
+template<class T, size_t size, class Ttraits> int phenotype<T, size, Ttraits>::fitness(const phenotype<T, size, Ttraits>& rhs) const {
     size_t fitness = 0;
     for(int i=0; i<size; i++) {
         fitness += abs(rhs[i] - pdata[i]);
@@ -62,17 +57,12 @@ template<class T=char, size_t size, class Ttraits=chphenotype> int phenotype<T, 
     return fitness;
 }
 
-template<class T=char, size_t size, class Ttraits=chphenotype> phenotype<T, size, Ttraits> operator=(const phenotype<T, size, Ttraits>& rhs) {
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> operator=(const phenotype<T, size, Ttraits>& rhs) {
     if(this==&rhs) return *this;
     for(size_t i=0; i<size; i++) {
        pdata[i] = rhs[i];
     }
     return *this;
 }
-
-//Char form
-/*template<int size> class phenotype<char, size> {
-
-};*/
 
 #endif

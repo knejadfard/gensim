@@ -13,6 +13,7 @@ typedef std::string::iterator siterator;
 class member {
     std::string phen; //phenotype
     //unsigned int ft; //fitness
+    //random_char should be moved to phenotype.hpp
     char random_char(const char& a, const char& b) const;
     member() {} //no default constructor allowed
 public:
@@ -21,7 +22,7 @@ public:
     member(const std::string& phenotype);
     member(const member& rhs); //copies phenotype of another member
     member& operator=(const member& rhs); //copies phenotype of another member
-    size_t cfitness(const member& alpha) const; //calculate fitness based on the alpha
+    size_t calculate_fitness(const member& alpha) const; //calculate fitness based on the alpha
     void mutate(const size_t& max_percent); //randomly apply mutations to phenotype
     std::string first_half() const; //return phenotype's first half
     std::string second_half() const; //return phenotype's second half
@@ -63,7 +64,7 @@ inline char member::random_char(const char& a, const char& b) const {
     return rand()%(b-a+1) + a;
 }
 
-size_t member::cfitness(const member& alpha) const {
+size_t member::calculate_fitness(const member& alpha) const {
     //if(alpha.phen.size() != phen.size())
         //throw exception
         size_t ft = 0; //must become 0 when recalculating fitness
@@ -74,10 +75,9 @@ size_t member::cfitness(const member& alpha) const {
 }
 
 inline void member::mutate(const size_t& max_percent) {
-    size_t mutate_count=floor(float(rand()%max_percent)/100*phen.size()); //NEEDS SOME CLEANUP
+    size_t mutate_count = floor( float(rand()%max_percent)/100*phen.size() );
     for(size_t i=0; i<mutate_count; i++) {
-        int index = rand()%phen.size(); //generate random index
-        phen.at(index) = random_char('a', 'z'); //assign random value to random index
+        phen.at( rand()%phen.size() ) = random_char('a', 'z'); //assign random value to random index
     }
 }
 
@@ -97,7 +97,7 @@ member member::generate(const size_t& size) const {
 }
 
 /*inline bool member::operator<(const member& rhs) const {
-    return cfitness()<rhs.cfitness();
+    return calculate_fitness()<rhs.calculate_fitness();
 }*/
 
 inline void member::set_phenotype(const std::string& phenotype) {
