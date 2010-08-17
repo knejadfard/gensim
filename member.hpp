@@ -1,58 +1,59 @@
 #ifndef MEMBER_H
 #define MEMBER_H
 
-#include <iostream>					// for cout etc.
-#include <string>					// for string class
+#include <iostream>
+#include <string>
 #include <cstdlib>
-#include <ctime>					// for random seed
-#include <cmath>					// for abs()
+#include <ctime>
+#include <cmath>
 
-typedef std::string::iterator siterator;
+#include "phenotype.hpp"
+#include "chphenotype.hpp"
+
+//typedef std::string::iterator siterator;
 
 //ADD CROSSOVER
 class member {
-    std::string phen; //phenotype
-    //unsigned int ft; //fitness
-    //random_char should be moved to phenotype.hpp
-    char random_char(const char& a, const char& b) const;
-    member() {} //no default constructor allowed
+    phenotype<char, 10, chphenotype> phen;
 public:
-    void random_range(siterator& it1, siterator& it2);
-    member(const size_t& size); //generates random phenotype
-    member(const std::string& phenotype);
+    //void random_range(siterator& it1, siterator& it2);
+    member(); //generates random phenotype
+    //member(const std::string& phenotype);
     member(const member& rhs); //copies phenotype of another member
+    member(const phenotype<char, 10, chphenotype>& data);
     member& operator=(const member& rhs); //copies phenotype of another member
-    size_t calculate_fitness(const member& alpha) const; //calculate fitness based on the alpha
-    void mutate(const size_t& max_percent); //randomly apply mutations to phenotype
-    std::string first_half() const; //return phenotype's first half
-    std::string second_half() const; //return phenotype's second half
-    member generate(const size_t& size) const; //generate a random member
+    //size_t calculate_fitness(const member& alpha) const; //calculate fitness based on the alpha
+    int fitness(const member& alpha);
+    //void mutate(const size_t& max_percent); //randomly apply mutations to phenotype
+    //std::string first_half() const; //return phenotype's first half
+    //std::string second_half() const; //return phenotype's second half
+    //member generate(const size_t& size) const; //generate a random member
     member mate(const member& rhs) const;
     //member breed(const member& rhs) const;
     //void crossover(member& rhs); //MODIFY TO APPLY RANDOM RANGE CROSS
-    const std::string& get_phenotype() const;
-    std::string& get_phenotype();
-    void set_phenotype(const std::string& phenotype);
+    const phenotype<char, 10, chphenotype>& get_phenotype() const;
+    phenotype<char, 10, chphenotype>& get_phenotype();
+    void set_phenotype(const phenotype<char, 10, chphenotype>& pheno);
     //unsigned int fitness();
     //bool operator<(const member& rhs) const; //compare fitness
 };
 
-inline member::member(const std::string& phenotype): phen(phenotype) {}
+//inline member::member(const std::string& phenotype): phen(phenotype) {}
 
-inline member::member(const size_t& size): phen() {
-    operator=(generate(size));
-}
+inline member::member(): phen() {}
 
 inline member::member(const member& rhs): phen() {
     //srand(time(0));
     operator=(rhs);
 }
 
-inline const std::string& member::get_phenotype() const {
+inline member::member(const phenotype<char, 10, chphenotype>& data): phen(data) {}
+
+inline const phenotype<char, 10, chphenotype>& member::get_phenotype() const {
     return phen;
 }
 
-inline std::string& member::get_phenotype() {
+inline phenotype<char, 10, chphenotype>& member::get_phenotype() {
     return phen;
 }
 
@@ -60,11 +61,11 @@ inline std::string& member::get_phenotype() {
     return ft;
 }*/
 
-inline char member::random_char(const char& a, const char& b) const {
+/*inline char member::random_char(const char& a, const char& b) const {
     return rand()%(b-a+1) + a;
-}
+}*/
 
-size_t member::calculate_fitness(const member& alpha) const {
+/*size_t member::calculate_fitness(const member& alpha) const {
     //if(alpha.phen.size() != phen.size())
         //throw exception
         size_t ft = 0; //must become 0 when recalculating fitness
@@ -72,36 +73,39 @@ size_t member::calculate_fitness(const member& alpha) const {
             ft += abs(phen.at(i)-alpha.phen.at(i));
         }
         return ft;
+}*/
+
+inline int member::fitness(const member& alpha) const {
+    return phen.fitness(alpha.get_phenotype());
 }
 
-inline void member::mutate(const size_t& max_percent) {
+/*inline void member::mutate(const size_t& max_percent) {
     size_t mutate_count = floor( float(rand()%max_percent)/100*phen.size() );
     for(size_t i=0; i<mutate_count; i++) {
         phen.at( rand()%phen.size() ) = random_char('a', 'z'); //assign random value to random index
     }
-}
+}*/
 
 inline member& member::operator=(const member& rhs) {
     if(this==&rhs) return *this;
     phen = rhs.get_phenotype();
-    //ft = rhs.fitness();
     return *this;
 }
 
-member member::generate(const size_t& size) const {
+/*member member::generate(const size_t& size) const {
     std::string rstr;
     for(size_t i=0; i<size; i++) {
         rstr += random_char('a', 'z');
     }
     return member(rstr);
-}
+}*/
 
 /*inline bool member::operator<(const member& rhs) const {
     return calculate_fitness()<rhs.calculate_fitness();
 }*/
 
-inline void member::set_phenotype(const std::string& phenotype) {
-    phen = phenotype;
+inline void member::set_phenotype(const phenotype<char, 10, chphenotype>& pheno) {
+    phen = pheno;
 }
 
 /*void member::crossover(member& rhs) {
@@ -112,7 +116,7 @@ inline void member::set_phenotype(const std::string& phenotype) {
     swap_ranges(it1, it2, phen.begin());
 }*/
 
-std::string member::first_half() const {
+/*std::string member::first_half() const {
     size_t index = ceil((float)phen.size()/2);
     std::string tmp;
     for(size_t i=0; i<index; i++) {
@@ -128,14 +132,13 @@ std::string member::second_half() const {
         tmp += phen.at(index);
     }
     return tmp;
+}*/
+
+inline member member::mate(const member& rhs) const {
+    return phen.mix(rhs.get_phenotype());
 }
 
-member member::mate(const member& rhs) const {
-    std::string tstr = first_half()+rhs.second_half();
-    return member(tstr);
-}
-
-void member::random_range(siterator& it1, siterator& it2) {
+/*void member::random_range(siterator& it1, siterator& it2) {
     it1 = phen.begin();
     size_t i1 = rand()%(phen.size()), i2 = rand()%(phen.size()-i1) + i1;
     for(;i1>1;i1--) {
@@ -145,6 +148,6 @@ void member::random_range(siterator& it1, siterator& it2) {
     for(;i2>1;i2--) {
         it2++;
     }
-}
+}*/
 
 #endif //MEMBER_H
