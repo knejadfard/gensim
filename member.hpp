@@ -20,7 +20,7 @@ public:
     member(const member& rhs);
     member(const P& data); //initialize member from a given phenotype, should stay implicit
     member& operator=(const member& rhs); //self-wise
-    int fitness(const member& alpha);
+    int fitness(const member& alpha) const;
     //std::string first_half() const; //return phenotype's first half
     //std::string second_half() const; //return phenotype's second half
     //member mate(const member& rhs) const;
@@ -30,7 +30,7 @@ public:
     member<P> operator+(const member<P>& rhs) const; //generate a newborn
 };
 
-inline member::member(): phen() {}
+template<class P> inline member<P>::member(): phen() {}
 
 template<class P> inline member<P>::member(const member<P>& rhs): phen() {
     operator=(rhs);
