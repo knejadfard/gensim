@@ -61,7 +61,7 @@ void population::evolve(const size_t& cycles) {
 
 void population::print() {
     for(miterator it=pvec.begin(); it!=pvec.end(); it++) {
-        std::cout<<"Phenotype: <"<<it->get_phenotype()<<"> Fitness: <"<<it->cfitness(alpha)<<">"<<std::endl;
+        std::cout<<"Phenotype: <"<<it->get_phenotype()<<"> Fitness: <"<<it->get_phenotype().fitness(a.get_phenotype())<<">"<<std::endl;
     }
 }
 
@@ -79,11 +79,11 @@ void population::advance() {
     nvec.push_back(pvec.at(0));
     nvec.push_back(pvec.at(1));
 
-    nvec.push_back(pvec.at(0).mate(pvec.at(1)));
+    nvec.push_back(pvec.at(0)+pvec.at(1));
     for(int i=2;i<pvec.size()-1; i++) {
-        nvec.push_back(pvec.at(i).mate(pvec.at(i+1)));
+        nvec.push_back(pvec.at(i)+pvec.at(i+1));
         //mutate new member
-        nvec.back().mutate(10);
+        nvec.back().get_phenotype().mutate(0.1);
     }
     pvec = nvec;
     std::sort(pvec.begin(), pvec.end(), cmp);
