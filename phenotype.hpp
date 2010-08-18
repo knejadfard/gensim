@@ -6,16 +6,13 @@
 #include <iostream>
 
 //RECONSIDER size_t?
+//CONSIDER USING TYPEDEF TO MAKE LIFE EASIER
 template<class T, size_t size, class Ttraits> class phenotype {
     T pdata[size]; //phenotype data
 public:
-    //NEEDS TO BE APPLIED SOON
-    //typedef phenotype<T, size, Ttraits> phen_type; //for making code more readable
-
     phenotype(const T& a); //make phenotype using a single element, copied to fill pdata
     phenotype(); //make phenotype with random data
     phenotype(const phenotype<T, size, Ttraits>& rhs);
-    //phenotype(const std::vector<T>& data); //make phenotype from given data
     phenotype(const T data[size]);
     phenotype<T, size, Ttraits>& operator=(const phenotype<T, size, Ttraits>& rhs);
     int fitness(const phenotype<T, size, Ttraits>& rhs) const;
@@ -23,7 +20,6 @@ public:
     const char& operator[](const size_t& index) const;
     void mutate(const float& rate);
     phenotype<T, size, Ttraits> operator+(const phenotype<T, size, Ttraits>& rhs) const;
-    //phenotype<T, size, Ttraits> mix(const phenotype<T, size, Ttraits>& rhs);
 };
 
 template<class T, size_t size, class Ttraits> inline phenotype<T, size, Ttraits>::phenotype(const phenotype<T, size, Ttraits>& rhs) {
@@ -41,13 +37,6 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::pheno
         pdata[i] = Ttraits::random();
     }
 }
-
-//MAY NEED MORE CARE
-/*template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(const std::vector<T>& data) {
-    for(int i=0; i<size; i++) {
-        pdata[i] = data.at(i);
-    }
-}*/
 
 //NEEDS MORE RESTRICTION FOR DATA'S SIZE
 template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(const T data[size]) {
@@ -104,10 +93,6 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenot
     }
     return tmp;
 }
-
-/*template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::mix(const phenotype<T, size, Ttraits>& rhs) {
-    return operator+(rhs);
-}*/
 
 //global overload for output to ostream
 template<class T, size_t size, class Ttraits> std::ostream& operator<<(std::ostream& out, const phenotype<T, size, Ttraits>& rhs) {
