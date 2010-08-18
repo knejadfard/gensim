@@ -23,7 +23,7 @@ public:
     const char& operator[](const size_t& index) const;
     void mutate(const float& rate);
     phenotype<T, size, Ttraits> operator+(const phenotype<T, size, Ttraits>& rhs);
-    phenotype<T, size, Ttraits> mix(const phenotype<T, size, Ttraits>& rhs);//TO BE IMPLEMENTED
+    //phenotype<T, size, Ttraits> mix(const phenotype<T, size, Ttraits>& rhs);
 };
 
 template<class T, size_t size, class Ttraits> inline phenotype<T, size, Ttraits>::phenotype(const phenotype<T, size, Ttraits>& rhs) {
@@ -86,7 +86,7 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>& pheno
 }
 
 template<class T, size_t size, class Ttraits> void phenotype<T, size, Ttraits>::mutate(const float& rate) {
-    size_t mutate_count = floor(rand()%2*rate*size);
+    size_t mutate_count = floor(rate*(rand()%size+1));
     for(size_t i=0; i<mutate_count; i++) {
         pdata[rand()%size] = Ttraits::random();
     }
@@ -105,9 +105,9 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenot
     return tmp;
 }
 
-template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::mix(const phenotype<T, size, Ttraits>& rhs) {
+/*template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::mix(const phenotype<T, size, Ttraits>& rhs) {
     return operator+(rhs);
-}
+}*/
 
 //global overload for output to ostream
 template<class T, size_t size, class Ttraits> std::ostream& operator<<(std::ostream& out, const phenotype<T, size, Ttraits>& rhs) {
