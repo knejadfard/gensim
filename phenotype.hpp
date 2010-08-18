@@ -8,15 +8,20 @@
 template<class T, size_t size, class Ttraits> class phenotype {
     T pdata[size]; //phenotype data
 public:
+    //NEEDS TO BE APPLIED SOON
+    //typedef phenotype<T, size, Ttraits> phen_type; //for making code more readable
+
     phenotype(const T& a); //make phenotype using a single element, copied to fill pdata
     phenotype(); //make phenotype with random data
     phenotype(const phenotype<T, size, Ttraits>& rhs);
-    phenotype(const std::vector<T>& data); //make phenotype from given data
+    //phenotype(const std::vector<T>& data); //make phenotype from given data
+    phenotype(const T data[size]);
     phenotype<T, size, Ttraits>& operator=(const phenotype<T, size, Ttraits>& rhs);
     int fitness(const phenotype<T, size, Ttraits>& rhs) const;
     char& operator[](const size_t& index);
     const char& operator[](const size_t& index) const;
     void mutate(const size_t max_percent);
+    phenotype<T, size, Ttraits> operator+(const phenotype<T, size, Ttraits>& rhs);
     phenotype<T, size, Ttraits> mix(const phenotype<T, size, Ttraits>& rhs);//TO BE IMPLEMENTED
 };
 
@@ -37,9 +42,16 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::pheno
 }
 
 //MAY NEED MORE CARE
-template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(const std::vector<T>& data) {
+/*template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(const std::vector<T>& data) {
     for(int i=0; i<size; i++) {
         pdata[i] = data.at(i);
+    }
+}*/
+
+//NEEDS MORE RESTRICTION FOR DATA'S SIZE
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>::phenotype(const T data[size]) {
+    for(int i=0; i<size; i++) {
+        pdata[i] = data[i];
     }
 }
 
@@ -77,6 +89,23 @@ template<class T, size_t size, class Ttraits> void phenotype<T, size, Ttraits>::
     for(size_t i=0; i<mutate_count; i++) {
         phen[rand()%size] = Ttraits::random();
     }
+}
+
+//MAY NEED IMPROVEMENT
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::operator+(const phenotype<T, size, Ttraits>& rhs) {
+    T tmp[size];
+    int half = size/2; //CHANGE TO FLOOR?
+    for(int i=0; i<=half; i++) {
+        tmp[i] = phen[i];
+    }
+    for(int i=half+1; i<size; i++) {
+        tmp[i] = rhs[i];
+    }
+    return tmp;
+}
+
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::mix(const phenotype<T, size, Ttraits>& rhs) {
+    return operator+(rhs);
 }
 
 #endif
