@@ -1,43 +1,45 @@
 #ifndef POPULATION_H
 #define POPULATION_H
 
-#include <iostream> //for output about cycles in evolve function
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <cmath>
 
 #include "member.hpp"
+#include "phenotype.hpp"
+#include "chphenotype.hpp"
 
 class population {
-    std::vector<member> pvec;
-    member alpha;
+    typedef member< phenotype<char, 10, chphenotype> > member_t;
+    typedef std::vector<member_t>::iterator miterator;
+    std::vector<member_t> pvec;
+    member_t a;
     void advance();
 
     class compare_members {
-        member alpha;
+        member_t a;
     public:
-        compare_members(const member& alpha_member): alpha(alpha_member) {}
-        bool operator()(const member& lhs, const member& rhs) {
-            return lhs.cfitness(alpha)<rhs.cfitness(alpha);
+        compare_members(const member_t& alpha): a(alpha) {}
+        bool operator()(const member_t& lhs, const member_t& rhs) {
+            return lhs.get_phenotype().fitness(a.get_phenotype())<rhs.get_phenotype().fitness(a.get_phenotype());
         }
     };
 
 public:
-    typedef std::vector<member>::iterator miterator;
-
     compare_members cmp;
 
-    population(const member& alpha_member, const size_t& size);
+    population(const member_t& alpha, const size_t& size);
     void evolve(const size_t& cycles);
     void print();
     size_t size() const;
 };
 
-population::population(const member& alpha_member, const size_t& size): pvec(), alpha(alpha_member), cmp(alpha) {
+population::population(const member_t& alpha, const size_t& size): pvec(), a(alpha), cmp(alpha) {
     //generate random population
     srand(time(0));
     for(size_t i=0; i<size; i++) {
-        pvec.push_back(member(alpha.get_phenotype().size()));
+        pvec.push_back(member_t());
     }
 }
 
@@ -71,7 +73,7 @@ void population::advance() {
     /*for(int i=0; i<count; i++) {
         pvec.pop_back();
     }*/
-    std::vector<member> nvec;
+    std::vector<member_t> nvec;
     //add best quarter to new population
     /*for(int i=0; i<count; i++) {
         nvec.push_back(pvec.at(i));
