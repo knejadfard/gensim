@@ -1,5 +1,7 @@
-Gensim is my personal project for simulating evolution and natural selection.
+Gensim is my personal project for simulating evolution and natural selection. My aim is to improve the system and make it more generic, making it useful for actual Genetic Programming.
 
 Build(all platforms):
 ---------------------
-You'll need SConstruct to be able to use the scons rules provided to build the project.
+You'll need SConstruct to be able to use the scons rules provided to build the project. Simply run the following to build the project:
+    $ scons
+The result is a single executable named "app".
