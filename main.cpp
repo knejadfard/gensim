@@ -21,8 +21,6 @@ int main(int argc, char **argv) {
         p.evolve(cycles);
         p.print();
         cout<<"Size: "<<p.size()<<endl;
-        int ar[] = {1,2,3,4};
-        test(ar);
     } catch(exception& e) {
         cout<<e.what()<<endl;
     }
