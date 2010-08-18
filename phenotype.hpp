@@ -86,7 +86,7 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>& pheno
 }
 
 template<class T, size_t size, class Ttraits> void phenotype<T, size, Ttraits>::mutate(const float& rate) {
-    size_t mutate_count = floor(rate*size);
+    size_t mutate_count = floor(rand()%2*rate*size);
     for(size_t i=0; i<mutate_count; i++) {
         pdata[rand()%size] = Ttraits::random();
     }
