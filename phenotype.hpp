@@ -22,7 +22,7 @@ public:
     char& operator[](const size_t& index);
     const char& operator[](const size_t& index) const;
     void mutate(const float& rate);
-    phenotype<T, size, Ttraits> operator+(const phenotype<T, size, Ttraits>& rhs);
+    phenotype<T, size, Ttraits> operator+(const phenotype<T, size, Ttraits>& rhs) const;
     //phenotype<T, size, Ttraits> mix(const phenotype<T, size, Ttraits>& rhs);
 };
 
@@ -93,7 +93,7 @@ template<class T, size_t size, class Ttraits> void phenotype<T, size, Ttraits>::
 }
 
 //MAY NEED IMPROVEMENT
-template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::operator+(const phenotype<T, size, Ttraits>& rhs) {
+template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::operator+(const phenotype<T, size, Ttraits>& rhs) const {
     T tmp[size];
     int half = ceil((float)size/2);
     for(int i=0; i<half; i++) {
