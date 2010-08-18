@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 //RECONSIDER size_t?
 template<class T, size_t size, class Ttraits> class phenotype {
@@ -106,6 +107,14 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenot
 
 template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::mix(const phenotype<T, size, Ttraits>& rhs) {
     return operator+(rhs);
+}
+
+//global overload for output to ostream
+template<class T, size_t size, class Ttraits> std::ostream& operator<<(std::ostream& out, const phenotype<T, size, Ttraits>& rhs) {
+    for(size_t i=0; i<size; i++) {
+        out<<rhs[i];
+    }
+    return out;
 }
 
 #endif
