@@ -95,11 +95,11 @@ template<class T, size_t size, class Ttraits> void phenotype<T, size, Ttraits>::
 //MAY NEED IMPROVEMENT
 template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenotype<T, size, Ttraits>::operator+(const phenotype<T, size, Ttraits>& rhs) {
     T tmp[size];
-    int half = size/2; //CHANGE TO FLOOR?
-    for(int i=0; i<=half; i++) {
+    int half = ceil((float)size/2);
+    for(int i=0; i<half; i++) {
         tmp[i] = pdata[i];
     }
-    for(int i=half+1; i<size; i++) {
+    for(int i=half; i<size; i++) {
         tmp[i] = rhs[i];
     }
     return tmp;
