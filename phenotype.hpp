@@ -20,7 +20,7 @@ public:
     int fitness(const phenotype<T, size, Ttraits>& rhs) const;
     char& operator[](const size_t& index);
     const char& operator[](const size_t& index) const;
-    void mutate(const size_t max_percent);
+    void mutate(const size_t& max_percent);
     phenotype<T, size, Ttraits> operator+(const phenotype<T, size, Ttraits>& rhs);
     phenotype<T, size, Ttraits> mix(const phenotype<T, size, Ttraits>& rhs);//TO BE IMPLEMENTED
 };
@@ -87,7 +87,7 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits>& pheno
 template<class T, size_t size, class Ttraits> void phenotype<T, size, Ttraits>::mutate(const size_t& max_percent) {
     size_t mutate_count = floor(float(rand()%max_percent)/100*size);
     for(size_t i=0; i<mutate_count; i++) {
-        phen[rand()%size] = Ttraits::random();
+        pdata[rand()%size] = Ttraits::random();
     }
 }
 
@@ -96,7 +96,7 @@ template<class T, size_t size, class Ttraits> phenotype<T, size, Ttraits> phenot
     T tmp[size];
     int half = size/2; //CHANGE TO FLOOR?
     for(int i=0; i<=half; i++) {
-        tmp[i] = phen[i];
+        tmp[i] = pdata[i];
     }
     for(int i=half+1; i<size; i++) {
         tmp[i] = rhs[i];
