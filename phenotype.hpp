@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include <vector>
-#include "chphenotype.hpp"
 
 //RECONSIDER size_t?
 template<class T, size_t size, class Ttraits> class phenotype {
