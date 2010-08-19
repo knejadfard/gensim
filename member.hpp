@@ -7,11 +7,6 @@
 #include <ctime>
 #include <cmath>
 
-#include "phenotype.hpp"
-#include "chphenotype.hpp"
-
-//typedef std::string::iterator siterator;
-
 template<class P> class member {
     P phen;
 public:
