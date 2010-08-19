@@ -24,10 +24,8 @@ class population {
         bool operator()(const member_t& lhs, const member_t& rhs) {
             return lhs.get_phenotype().fitness(a.get_phenotype())<rhs.get_phenotype().fitness(a.get_phenotype());
         }
-    };
-
+    } cmp;
 public:
-    compare_members cmp;
 
     population(const member_t& alpha, const size_t& size);
     void evolve(const size_t& cycles);
