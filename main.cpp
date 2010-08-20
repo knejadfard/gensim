@@ -4,6 +4,8 @@
 
 #include "member.hpp"
 #include "population.hpp"
+#include "phenotype.hpp"
+#include "chphenotype.hpp"
 
 typedef phenotype<char, 10, chphenotype> phen_t;
 
@@ -18,7 +20,7 @@ int main(int argc, char **argv) {
         (*i)>>size>>cycles;
         delete i;
         //
-        population p(member<phen_t>('a'), size);
+        population<phen_t> p(member<phen_t>('a'), size);
         p.print();
         p.evolve(cycles);
         p.print();
