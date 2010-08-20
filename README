@@ -2,7 +2,7 @@ Gensim is my personal project for simulating evolution and natural selection. My
 
 Status:
 -------
-Currently testing branch is incomplete and not able to compile; Should be finished soon.
+Gensim has reached a working state but still needs a lot of improvements and has to become more general.
 
 Build(all platforms):
 ---------------------
