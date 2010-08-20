@@ -42,13 +42,8 @@ template <class Phenotype> size_t population<Phenotype>::size() const{
 }
 template <class Phenotype> void population<Phenotype>::evolve(const size_t& cycles) {
     for(size_t i=0; i<cycles; i++) {
-        /*for(miterator it1=pvec.begin(); it1!=pvec.end(); it1++) {
-            //it1->crossover(*it2);
-            it1->mutate(20);
-        }*/
         std::sort(pvec.begin(), pvec.end(), cmp);
         advance();
-        //usleep(1000);
         std::cout<<"\rCycle "<<i+1<<" Completed.";
     }
     std::cout<<std::endl;
@@ -60,16 +55,11 @@ template <class Phenotype> void population<Phenotype>::print() {
 }
 template <class Phenotype> void population<Phenotype>::advance() {
     std::vector<member_t> nvec;
-    //add best quarter to new population
-    /*for(int i=0; i<count; i++) {
-        nvec.push_back(pvec.at(i));
-    }*/
     nvec.push_back(pvec.at(0));
     nvec.push_back(pvec.at(1));
     nvec.push_back(pvec.at(0)+pvec.at(1));
     for(int i=2;i<pvec.size()-1; i++) {
         nvec.push_back(pvec.at(i)+pvec.at(i+1));
-        //mutate new member
         nvec.back().get_phenotype().mutate(0.1);
     }
     pvec = nvec;
