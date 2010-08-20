@@ -1,3 +1,2 @@
-env = Environment(parse_args='-g')
-
+env = Environment(parse_args='')
 env.Program(target='app', source='main.cpp')
