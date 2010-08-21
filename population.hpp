@@ -32,7 +32,6 @@ public:
 };
 
 template <class Phenotype> population<Phenotype>::population(const member_t& alpha, const size_t& size): pvec(), a(alpha), cmp(alpha) {
-    srand(time(0));
     for(size_t i=0; i<size; i++) {
         pvec.push_back(member_t());
     }
