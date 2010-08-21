@@ -4,6 +4,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include "ranum.hpp"
 
 //RECONSIDER size_t?
 //CONSIDER USING TYPEDEF TO MAKE LIFE EASIER
@@ -75,9 +76,10 @@ template<class T, size_t size, class Tpolicy> phenotype<T, size, Tpolicy>& pheno
 }
 
 template<class T, size_t size, class Tpolicy> void phenotype<T, size, Tpolicy>::mutate(const float& rate) {
-    size_t mutate_count = floor(rate*(rand()%size+1));
+    adl::ranum &t = adl::ranum::get();
+    size_t mutate_count = floor(rate*t.generate(0, size));
     for(size_t i=0; i<mutate_count; i++) {
-        pdata[rand()%size] = Tpolicy::random();
+        pdata[t.generate(0, size-1)] = Tpolicy::random();
     }
 }
 
