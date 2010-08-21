@@ -1,12 +1,6 @@
 #ifndef MEMBER_H
 #define MEMBER_H
 
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-
 template<class Phenotype> class member {
     Phenotype phen;
 public:
