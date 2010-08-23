@@ -14,24 +14,22 @@ template <class Phenotype> class population {
     std::vector<member_t> pvec;
     member_t a;
     void advance();
-
     class compare_members {
-        member_t a;
+        member_t &al;
     public:
-        compare_members(const member_t& alpha): a(alpha) {}
+        compare_members(member_t& alpha): al(alpha) {}
         bool operator()(const member_t& lhs, const member_t& rhs) {
-            return lhs.get_phenotype().fitness(a.get_phenotype())<rhs.get_phenotype().fitness(a.get_phenotype());
+            return lhs.get_phenotype().fitness(al.get_phenotype())<rhs.get_phenotype().fitness(al.get_phenotype());
         }
-    } cmp;
+    };
 public:
-
     population(const member_t& alpha, const size_t& size);
     void evolve(const size_t& cycles);
     void print();
     size_t size() const;
 };
 
-template <class Phenotype> population<Phenotype>::population(const member_t& alpha, const size_t& size): pvec(), a(alpha), cmp(alpha) {
+template <class Phenotype> population<Phenotype>::population(const member_t& alpha, const size_t& size): pvec(), a(alpha) {
     for(size_t i=0; i<size; i++) {
         pvec.push_back(member_t());
     }
@@ -40,6 +38,7 @@ template <class Phenotype> size_t population<Phenotype>::size() const{
     return pvec.size();
 }
 template <class Phenotype> void population<Phenotype>::evolve(const size_t& cycles) {
+    compare_members cmp(a);
     for(size_t i=0; i<cycles; i++) {
         std::sort(pvec.begin(), pvec.end(), cmp);
         advance();
@@ -62,6 +61,7 @@ template <class Phenotype> void population<Phenotype>::advance() {
         nvec.back().get_phenotype().mutate(0.1);
     }
     pvec = nvec;
+    compare_members cmp(a);
     std::sort(pvec.begin(), pvec.end(), cmp);
 }
 
