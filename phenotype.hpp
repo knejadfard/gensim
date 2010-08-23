@@ -17,8 +17,8 @@ public:
     phenotype(const T data[size]);
     phenotype<T, size, Tpolicy>& operator=(const phenotype<T, size, Tpolicy>& rhs);
     int fitness(const phenotype<T, size, Tpolicy>& rhs) const;
-    char& operator[](const size_t& index);
-    const char& operator[](const size_t& index) const;
+    T& operator[](const size_t& index);
+    const T& operator[](const size_t& index) const;
     void mutate(const float& rate);
     phenotype<T, size, Tpolicy> operator+(const phenotype<T, size, Tpolicy>& rhs) const;
 };
@@ -46,13 +46,13 @@ template<class T, size_t size, class Tpolicy> phenotype<T, size, Tpolicy>::pheno
     }
 }
 
-template<class T, size_t size, class Tpolicy> inline char& phenotype<T, size, Tpolicy>::operator[](const size_t& index) {
+template<class T, size_t size, class Tpolicy> inline T& phenotype<T, size, Tpolicy>::operator[](const size_t& index) {
     //CHECK BOUNDS
     //ADD EXCEPTION
     return pdata[index];
 }
 
-template<class T, size_t size, class Tpolicy> inline const char& phenotype<T, size, Tpolicy>::operator[](const size_t& index) const {
+template<class T, size_t size, class Tpolicy> inline const T& phenotype<T, size, Tpolicy>::operator[](const size_t& index) const {
     //CHECK BOUNDS
     //ADD EXCEPTION
     return pdata[index];
