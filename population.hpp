@@ -38,7 +38,7 @@ template <class Phenotype> population<Phenotype>::population(const member_t& alp
     }
 }
 
-template <class Phenotype> size_t population<Phenotype>::size() const{
+template <class Phenotype> inline size_t population<Phenotype>::size() const{
     return pvec.size();
 }
 
