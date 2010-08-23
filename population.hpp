@@ -19,6 +19,7 @@ protected:
         }
     };
     //virtual void filter(); //select certain members to remain in next generation
+    void sort();
 public:
     typedef member< Phenotype > member_t;
     typedef std::vector<member_t> vector_t;
@@ -44,9 +45,8 @@ template <class Phenotype> size_t population<Phenotype>::size() const{
 template <class Phenotype> void population<Phenotype>::evolve(const size_t& cycles) {
     compare_members cmp(a);
     for(size_t i=0; i<cycles; i++) {
+        sort();
         vector_t nvec;
-        compare_members cmp(a);
-        std::sort(pvec.begin(), pvec.end(), cmp);
         nvec.push_back(pvec.at(0));
         nvec.push_back(pvec.at(1));
         nvec.push_back(pvec.at(0)+pvec.at(1));
@@ -62,6 +62,11 @@ template <class Phenotype> void population<Phenotype>::print() {
     for(iterator_t it=pvec.begin(); it!=pvec.end(); it++) {
         std::cout<<"Phenotype: <"<<it->get_phenotype()<<"> Fitness: <"<<it->get_phenotype().fitness(a.get_phenotype())<<">"<<std::endl;
     }
+}
+
+template <class Phenotype> inline void population<Phenotype>::sort() {
+    compare_members cmp(a);
+    std::sort(pvec.begin(), pvec.end(), cmp);
 }
 
 #endif // POPULATION_H
