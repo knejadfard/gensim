@@ -5,9 +5,18 @@
 #include "member.hpp"
 #include "population.hpp"
 #include "phenotype.hpp"
-#include "chphenotype.hpp"
+//#include "chphenotype.hpp"
+#include "ranum.hpp"
 
-typedef phenotype<char, 10, chphenotype> phen_t;
+class int_policy {
+public:
+    static int random() {
+        adl::ranum &r = adl::ranum::get();
+        return r.generate(0, 9);
+    }
+};
+
+typedef phenotype<int, 5, int_policy> iphen_t;
 
 using namespace std;
 
@@ -20,7 +29,8 @@ int main(int argc, char **argv) {
         (*i)>>size>>cycles;
         delete i;
         //
-        population<phen_t> p(member<phen_t>('a'), size);
+        int alpha[] = {5,2,0,0,5};
+        population<iphen_t> p(member<iphen_t>(alpha), size);
         p.print();
         p.evolve(cycles);
         p.print();
