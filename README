@@ -4,8 +4,9 @@ Status:
 -------
 Gensim has reached a working state but still needs a lot of improvements and has to become more general.
 
-Build(all platforms):
----------------------
-You'll need SConstruct to be able to use the scons rules provided to build the project. Simply run the following to build the project:
-    $ scons
-The result is a single executable named "app".
+Build:
+------
+As of 20th October 2010, gensim uses CMake as it's build system. In order to build gensim, do the following:
+1. Make a new directory inside this folder
+2. "cd" into this directory
+3. Execute "cmake ../"
