@@ -1,2 +1,0 @@
-env = Environment(parse_args='')
-env.Program(target='app', source='main.cpp')
