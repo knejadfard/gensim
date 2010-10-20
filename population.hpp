@@ -52,7 +52,7 @@ template <class Phenotype> void population<Phenotype>::evolve(const size_t& cycl
         nvec.push_back(pvec.at(0)+pvec.at(1));
         for(int i=2;i<pvec.size()-1; i++) {
             nvec.push_back(pvec.at(i)+pvec.at(i+1));
-            nvec.back().get_phenotype().mutate(0.1);
+            nvec.back().get_phenotype().mutate(0.25);
         }
         pvec = nvec;
     }
@@ -62,6 +62,7 @@ template <class Phenotype> void population<Phenotype>::print() {
     for(iterator_t it=pvec.begin(); it!=pvec.end(); it++) {
         std::cout<<"Phenotype: <"<<it->get_phenotype()<<"> Fitness: <"<<it->get_phenotype().fitness(a.get_phenotype())<<">"<<std::endl;
     }
+    std::cout<<std::endl;
 }
 
 template <class Phenotype> inline void population<Phenotype>::sort() {
