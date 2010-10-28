@@ -5,14 +5,12 @@
 #include "member.hpp"
 #include "population.hpp"
 #include "phenotype.hpp"
-//#include "chphenotype.hpp"
 #include "ranum.hpp"
 
 class int_policy {
 public:
     static int random() {
-        adl::ranum &r = adl::ranum::get();
-        return r.generate(0, 9);
+        return ranum::object().generate(0, 9);
     }
 };
 

@@ -4,6 +4,10 @@ project(gensim)
 
 add_definitions(-Wall -s -Os)
 
-include_directories("${PROJECT_SOURCE_DIR}")
+include_directories("${gensim_SOURCE_DIR}/include" "${gensim_BINARY_DIR}")
+link_directories("${gensim_SOURCE_DIR}/lib")
 
-add_executable(gensim main.cpp)
+set(SOURCES "${gensim_SOURCE_DIR}/src/main.cpp")
+
+add_executable(gensim "${SOURCES}")
+target_link_libraries(gensim ranum)

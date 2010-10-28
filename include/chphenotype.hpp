@@ -1,7 +1,6 @@
 #ifndef _CHPHENOTYPE_
 #define _CHPHENOTYPE_
 
-//#include <cstdlib>
 #include "ranum.hpp"
 
 class chphenotype {
@@ -10,8 +9,7 @@ public:
 };
 
 inline char chphenotype::random() {
-    adl::ranum &t = adl::ranum::get();
-    return t.generate('a', 'z');
+    return ranum::object().generate('a', 'z');
 }
 
 #endif
