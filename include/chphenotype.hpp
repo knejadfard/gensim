@@ -9,7 +9,8 @@ public:
 };
 
 inline char chphenotype::random() {
-    return ranum::object().generate('a', 'z');
+    random_generator rand{};
+    return rand.generate('a', 'z');
 }
 
 #endif

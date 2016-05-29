@@ -76,9 +76,10 @@ template<class T, size_t size, class Tpolicy> phenotype<T, size, Tpolicy>& pheno
 }
 
 template<class T, size_t size, class Tpolicy> void phenotype<T, size, Tpolicy>::mutate(const float& rate) {
-    size_t mutate_count = floor(rate*ranum::object().generate(0, size));
+    random_generator rand{};
+    size_t mutate_count = floor(rate * rand.generate(0, size));
     for(size_t i=0; i<mutate_count; i++) {
-        pdata[ranum::object().generate(0, size-1)] = Tpolicy::random();
+        pdata[rand.generate(0, size-1)] = Tpolicy::random();
     }
 }
 

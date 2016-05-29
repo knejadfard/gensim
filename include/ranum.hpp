@@ -1,18 +1,24 @@
 #ifndef _RANUM_
 #define _RANUM_
 
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
-class ranum {
-    ranum() {
-        srand(time(0));    //private constructor, only used inside ::get()
-    }
-    ranum(const ranum& rhs){} //disable copy constructor
-    ranum& operator=(const ranum& rhs){} //disable assignment
+class random_generator {
+
+    random_generator(const random_generator& rhs)=delete;
+    random_generator& operator=(const random_generator& rhs)=delete;
+
 public:
-    static ranum& object(); //get a reference to the static ranum object
-    int generate(const int& min, const int& max); //return random number between min and max
+
+    random_generator() {}
+
+    int generate(const int& min, const int& max) {
+        std::random_device _rd{};
+        std::mt19937_64 _generator{_rd()};
+        std::uniform_int_distribution<> dist{min, max};
+        return dist(_generator);
+    }
+
 };
 
 #endif
